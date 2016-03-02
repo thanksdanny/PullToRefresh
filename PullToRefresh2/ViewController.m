@@ -75,7 +75,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     // tableview
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, 375, 603) style:UITableViewStylePlain];
     [self.tableView registerClass:[UITableViewCell self] forCellReuseIdentifier:@"MyCells"]; // 没有这句程序一直蹦，但看别的demo又没用这个，有点奇怪
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -85,7 +85,7 @@
 //    self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshEmoji) forControlEvents:UIControlEventValueChanged];
     self.refreshControl.backgroundColor = [UIColor colorWithRed:0.113 green:0.113 blue:0.145 alpha:1];
-    self.refreshControl.tintColor = [UIColor redColor];
+    self.refreshControl.tintColor = [UIColor whiteColor];
     
     // nav
     self.navBar.barStyle = UIBarStyleBlackTranslucent;
@@ -93,6 +93,7 @@
     
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.navBar];
+    [self.tableView addSubview:self.refreshControl];
 }
 
 - (void)didReceiveMemoryWarning {
