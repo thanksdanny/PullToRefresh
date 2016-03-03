@@ -13,11 +13,19 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UINavigationBar *navBar;
+@property (nonatomic, strong) NSArray *nowEmoji;
 
 @end
 
 @implementation ViewController
 
+#pragma mark - lazy init
+- (NSArray *)nowEmoji {
+    if (!_nowEmoji) {
+        _nowEmoji = [self currentEmoji];
+    }
+    return _nowEmoji;
+}
 - (UINavigationBar *)navBar {
     if (!_navBar) {
         _navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 375, 64)];
@@ -35,6 +43,7 @@
 - (void)refreshEmoji {
     NSLog(@"%s", __func__);
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"下拉刷新"];
+    self.nowEmoji = [self newEmoji];
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
 }
@@ -56,13 +65,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableViewCellIdentifier];
     }
     cell = [tableView dequeueReusableCellWithIdentifier:tableViewCellIdentifier];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [self currentEmoji][indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [self nowEmoji][indexPath.row]];
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[self currentEmoji] count];
+    return [[self nowEmoji] count];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
